@@ -1,0 +1,64 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/resmoio/kubernetes-event-exporter
+  #repository: artifactory.devops.telekom.de/ghcr.io/resmoio/kubernetes-event-exporter
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: v1.0
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+#podSecurityContext: {}
+podSecurityContext:
+  fsGroup: 65532
+
+#securityContext: {}
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 65532
+
+#resources: {}
+resources:
+  limits:
+    cpu: 400m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# start leaderElection in HA configuration
+leaderElection: false
+# logLevel (info, debug...)
+logLevel:  info
+# Json Logformat (default)
+logFormat: pretty
+
+routes: {}
+#routes:
+#  - match:
+#      - receiver: dump
+receivers: {}
+#receivers:
+#  - name: dump
+#    stdout: { }

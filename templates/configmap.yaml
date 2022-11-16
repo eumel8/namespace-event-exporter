@@ -1,0 +1,20 @@
+apiVersion: v1
+data:
+  config.yaml: |
+    leaderElection:
+      enabled: {{ .Values.leaderElection | default "false" }}
+    logLevel: {{ .Values.logLevel | default "info" }}
+    logFormat: {{ .Values.logFormat | default "pretty" }}
+    namespace: {{ .Release.Namespace | default "default" }}
+    route:
+      routes:
+      {{- with .Values.routes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    receivers:
+      {{- with .Values.receivers }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+kind: ConfigMap
+metadata:
+  name: {{ include "namespace-event-exporter.fullname" . }}
