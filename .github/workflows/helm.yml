@@ -1,19 +1,18 @@
-on:
-  push:
-    paths:
-      - chart/**
+#on:
+#  push:
+#    paths:
+#      - chart/**
 
-name: helmtest
+name: k3s Testing
+on: push
 jobs:
-  deploy:
-    name: helmtest
-  steps:
-  - uses: debianmaster/actions-k3s@master
-    id: k3s
-    with:
-      version: 'latest'
-  - run: |
-      kubectl get nodes
-      kubectl get pods -A
-      sleep 20
-      kubectl get pods -A
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: debianmaster/actions-k3s@master
+      id: k3s
+      with:
+        version: 'v1.21.2-k3s1'
+    - run: |
+        kubectl get nodes
+        kubectl get pods -A
